@@ -9,7 +9,7 @@ class FieldElement:
         self.prime = prime
 
     def __repr__(self) -> str:
-        return f'FieldElement_{self.prime}({self.num})'
+        return f'F{self.prime}({self.num})'
 
     def __eq__(self, o: object) -> bool:
         if o is None:
@@ -33,6 +33,16 @@ class FieldElement:
         num = (self.num - o.num) % self.prime
         return self.__class__(num, self.prime)
 
+    def __mul__(self, o: object) -> object:
+        if self.prime != o.prime:
+            raise TypeError('Cannot multiply two numbers in different fields.')
+        num = (self.num * o.num) % self.prime
+        return self.__class__(num, self.prime)
+
+    def __pow__(self, exponent: int) -> object:
+        num = (self.num ** exponent) % self.prime
+        return self.__class__(num, self.prime)
+
         
 
 if __name__ == "__main__":
@@ -52,6 +62,11 @@ if __name__ == "__main__":
     print('a + b = ', a + b)
     print('b + b = ', b + b)
     print('a + a = ', a + a)
+
+    a = FieldElement(3, 13)
+    b = FieldElement(12, 13)
+    c = FieldElement(10, 13)
+    print(a*b==c)
     
     
 
