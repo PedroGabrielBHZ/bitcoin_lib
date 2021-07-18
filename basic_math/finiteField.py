@@ -43,30 +43,28 @@ class FieldElement:
         num = (self.num ** exponent) % self.prime
         return self.__class__(num, self.prime)
 
+    def __truediv__(self, o: object) -> object:
+        if self.prime != o.prime:
+            raise TypeError('Cannot divide two numbers in different fields.')
+        # use Fermat's little theorem:
+        # self.num ** (p - 1) % p == 1
+        # which translates to:
+        # 1/n == pow(n, p-2, p)
+        num = self.num * pow(o.num, self.prime - 2, self.prime) % self.prime
+        return self.__class__(num, self.prime)
+
+
         
 
 if __name__ == "__main__":
-    a = FieldElement(7, 13)
+    a = FieldElement(2, 19)
     print('a = ', a)
 
-    b = FieldElement(6, 13)
+    b = FieldElement(7, 19)
     print('b = ', b)
 
-    print('Is a == b? ', a==b)
-    print('Is a != b? ', a!=b)
-    print('Is a == a? ', a==a)
-
-    print('a - a = ', a - a)
-    print('b - b = ', b - b)
-    print('a - b = ', a - b)
-    print('a + b = ', a + b)
-    print('b + b = ', b + b)
-    print('a + a = ', a + a)
-
-    a = FieldElement(3, 13)
-    b = FieldElement(12, 13)
-    c = FieldElement(10, 13)
-    print(a*b==c)
+    print('a / b', a/b)
+    
     
     
 
