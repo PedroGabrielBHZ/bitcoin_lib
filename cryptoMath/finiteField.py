@@ -55,8 +55,6 @@ class FieldElement:
         return self.__class__(num, self.prime)
 
 
-        
-
 if __name__ == "__main__":
     a = FieldElement(2, 19)
     print('a = ', a)
@@ -65,7 +63,3 @@ if __name__ == "__main__":
     print('b = ', b)
 
     print('a / b', a/b)
-    
-    
-    
-

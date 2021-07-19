@@ -53,6 +53,17 @@ class Point:
 
 
 if __name__ == "__main__":
-    p1 = Point(-1, 1, 5, 7)
-    c = p1 + p1
-    print(c)
+    from finiteField import FieldElement
+    prime = 223
+    a = FieldElement(0, prime)
+    b = FieldElement(7, prime)
+
+    x1 = FieldElement(170, prime)
+    y1 = FieldElement(142, prime)
+    p1 = Point(x1, y1, a, b)
+
+    x2 = FieldElement(60, prime)
+    y2 = FieldElement(139, prime)
+    p2 = Point(x2, y2, a, b)
+
+    print(p1 + p2)
