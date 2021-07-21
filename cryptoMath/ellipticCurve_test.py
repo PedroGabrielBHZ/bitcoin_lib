@@ -1,7 +1,6 @@
 from unittest import TestCase, TestSuite, TextTestRunner
 from ellipticCurve import Point
 from finiteField import FieldElement
-#testpush
 
 
 class ECCTest(TestCase):
