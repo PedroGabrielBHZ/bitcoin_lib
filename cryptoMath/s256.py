@@ -15,6 +15,9 @@ class S256Field(FieldElement):
     def __repr__(self) -> str:
         return '{:x}'.format(self.num).zfill(64)
 
+    def sqrt(self):
+        return self**((P+1) // 4)
+
 
 class S256Point(Point):
 
@@ -35,6 +38,41 @@ class S256Point(Point):
         v = sig.r * s_inv % N
         total = u * G + v * self
         return total.x.num == sig.r
+
+    def sec(self, compressed=True):
+        """Return the binary version of the SEC format"""
+        if compressed:
+            prefix_byte = None
+            if self.y.num % 2 == 0:
+                prefix_byte = b'\x02'
+            else:
+                prefix_byte = b'\x03'
+            return prefix_byte + self.x.num.to_bytes(32, 'big')
+        else:
+            return b'\x04' + self.x.num.to_bytes(32, 'big') \
+                + self.y.num.to_bytes(32, 'big')
+
+    @classmethod
+    def parse(self, sec_bin):
+        """return a point object from a SEC binary (not hex)"""
+        if sec_bin[0] == 4:
+            x = int.from_bytes(sec_bin[1:33], 'big')
+            y = int.from_bytes(sec_bin[33:65], 'big')
+            return S256Point(x=x, y=y)
+        is_even = sec_bin[0] == 2
+        x = S256Field(int.from_bytes(sec_bin[1:], 'big'))
+        alpha = x**3 + S256Field(B)
+        beta = alpha.sqrt()
+        if beta.num % 2 == 0:
+            even_beta = beta
+            odd_beta = S256Field(P - beta.num)
+        else:
+            even_beta = S256Field(P - beta.num)
+            odd_beta = beta
+        if is_even:
+            return S256Point(x, even_beta)
+        else:
+            return S256Point(x, odd_beta)
 
 
 G = S256Point(
