@@ -4,6 +4,7 @@ from random import randint
 from signature import Signature
 import hmac
 
+
 class PrivateKey:
 
     def __init__(self, secret) -> None:
@@ -39,3 +40,9 @@ class PrivateKey:
         if s > N/2:
             s = N - s
         return Signature(r, s)
+
+
+if __name__ == "__main__":
+    for secret in [5001, 2019**5, 0xdeadbeef54321]:
+        priv = PrivateKey(secret)
+        print(priv.point.sec().hex(), 3*'\n')
