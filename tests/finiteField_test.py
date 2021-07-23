@@ -1,5 +1,5 @@
 from unittest import TestCase, TestSuite, TextTestRunner
-from finiteField import FieldElement
+from cryptoMath.finiteField import FieldElement
 
 
 class FieldElementTest(TestCase):

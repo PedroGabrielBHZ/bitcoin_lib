@@ -1,6 +1,6 @@
 from unittest import TestCase, TestSuite, TextTestRunner
-from ellipticCurve import Point
-from finiteField import FieldElement
+from cryptoMath.ellipticCurve import Point
+from cryptoMath.finiteField import FieldElement
 
 
 class ECCTest(TestCase):
